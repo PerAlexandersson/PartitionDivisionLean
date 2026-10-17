@@ -9,6 +9,24 @@ function `m_λ` to `m_(λ/k)` when every part of `λ` is divisible by `k`, and t
 zero otherwise. The theorem: for every `μ ⊢ kn`, `R_k(e_μ)` is a combination of
 the `e_ν`, `ν ⊢ n`, with nonnegative integer coefficients.
 
+## Definitions
+
+Standard definitions and properties are as in the
+[Symmetric Functions Catalog](https://www.symmetricfunctions.com/), with the notation used here:
+
+- partitions, conjugates, dominance order and hook lengths:
+  [preliminaries](https://www.symmetricfunctions.com/preliminaries.htm#prelimPartitions),
+  [orderings](https://www.symmetricfunctions.com/preliminaries.htm#partialOrderingsOnPartitions),
+  [hooks](https://www.symmetricfunctions.com/preliminaries.htm#partitionCores);
+- the ring of symmetric functions, monomial `m_λ` and elementary `e_λ`:
+  [symmetric functions](https://www.symmetricfunctions.com/standardSymmetricFunctions.htm#symmetricFunctions),
+  [monomial](https://www.symmetricfunctions.com/standardSymmetricFunctions.htm#monomial),
+  [elementary](https://www.symmetricfunctions.com/standardSymmetricFunctions.htm#elementaryE);
+- Schur polynomials: [Schur](https://www.symmetricfunctions.com/schur.htm#schurS);
+- Macdonald polynomials `P_λ(x; q, t)` and their characterization as eigenvectors of Macdonald's
+  operators: [Macdonald P](https://www.symmetricfunctions.com/macdonaldP.htm#macdonaldP),
+  [eigenvector characterization](https://www.symmetricfunctions.com/macdonaldP.htm#macdonaldPEigenvectors).
+
 ## Status
 
 The theorem is **fully checked by Lean**, with no `sorry` and no custom axioms
