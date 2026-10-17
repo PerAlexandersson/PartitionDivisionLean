@@ -8,6 +8,7 @@ public import PartitionDivision.Mathlib.RingTheory.MvPolynomial.ExponentFilter
 public import PartitionDivision.Mathlib.RingTheory.MvPolynomial.Symmetric.ElementaryExpansion
 public import PartitionDivision.Mathlib.RingTheory.MvPolynomial.Symmetric.Monomial
 public import PartitionDivision.Macdonald.Operator
+public import PartitionDivision.Division.TraceIdentity
 
 /-!
 # Partition division
