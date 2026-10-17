@@ -1,6 +1,7 @@
 module
 
 public import PartitionDivision.Mathlib.Algebra.MvPolynomial.NonnegCoeffs
+public import PartitionDivision.Mathlib.RingTheory.MvPolynomial.ExponentFilter
 
 /-!
 # Partition division

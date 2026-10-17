@@ -146,3 +146,4 @@ Checked in Lean (builds with no `sorry`; axioms `propext`, `Classical.choice`, `
 | Outline step | Module | Main declarations |
 |---|---|---|
 | §2 positive-trace kernel | `PartitionDivision/Mathlib/Algebra/MvPolynomial/NonnegCoeffs.lean` | `MvPolynomial.HasNonnegCoeffs`, `Matrix.hasNonnegCoeffs_trace_list_prod` |
+| §1, §5 exponent filter, root-of-unity average | `PartitionDivision/Mathlib/RingTheory/MvPolynomial/ExponentFilter.lean` | `MvPolynomial.exponentFilter`, `exponentDiv`, `exponentFilter_eq_expand_exponentDiv`, `IsSymmetric.exponentDiv`, `sum_rootTwist_eq_nsmul_exponentFilter` |
