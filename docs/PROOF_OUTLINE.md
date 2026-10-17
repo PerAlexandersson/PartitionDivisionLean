@@ -10,9 +10,18 @@ otherwise. For `μ ⊢ kn`, the theorem to formalize is
 R_k(e_μ) = ∑_{ν ⊢ n} c_{μ,ν} e_ν,  with c_{μ,ν} ∈ ℕ.
 ```
 
-The companion manuscript proves this theorem mathematically. We have not
-formalized any part of it here. The route below follows its finite free-basis,
-Pieri, and trace argument. A finite graph route is listed separately because
+The companion manuscript proves this theorem mathematically. **It is now
+formalized in Lean** in its finite form: for every `N ≥ n`,
+`PartitionDivision.exists_nat_esymm_expansion_exponentDiv_esymmPart`
+(`PartitionDivision/Division/Main.lean`) states that `exponentDiv k (e_μ)` is a
+natural-number combination of the `e_ν`, `ν ⊢ n`, in `N` variables. In `N` variables
+`exponentDiv k` is `R_k`, and for `N ≥ n` the `e_ν` are independent, so this is
+equivalent to the symmetric-function statement; that equivalence is a remark, not a
+Lean theorem. The proof uses only the axioms `propext`, `Classical.choice` and
+`Quot.sound`, with no `sorry`, and its only Macdonald input is proved in this
+repository (see `docs/MACDONALD.md` and `docs/PIERI.md`). The formal route
+follows the manuscript's finite free-basis, Pieri and trace argument, with the
+departures noted in the source map below. A finite graph route is listed separately because
 it proves useful special cases but not the full theorem term by term.
 
 Module layout and reuse of existing Lean libraries are in
@@ -162,3 +171,13 @@ Checked in Lean (builds with no `sorry`; axioms `propext`, `Classical.choice`, `
 | §6 **conditional** main theorem: only the Macdonald input at `q = ζ`, `t = ζ v` remains (a basis satisfying the Pieri rule, `P 0 = 1`, rectangles) | `PartitionDivision/Division/RootOfUnity.lean` | `PartitionDivision.exists_nat_esymm_expansion_of_pieri_at_root_of_unity` |
 | §3 specialization `(q,t) ↦ (ζ, ζv)`, **conditional** on lex-unitriangularity and the generic Pieri rule: regularity, specialized basis, Pieri at `q = ζ`, `P 0 = 1` | `PartitionDivision/Macdonald/{LexUnitriangular,Specialization}.lean`, `PartitionDivision/Division/Specialization.lean` | `lexUnitriangularBasis`, `mem_range_map_of_isLexUnitriangular`, `specializedBasis`, `satisfiesPieri_rootSpecialization` |
 | §3 lex-triangularity of every `D_N^r` on `msymmVec`; definition of `macdonaldP` over `ℚ(q,t)` as the unique lex-unitriangular `D_N^1`-eigenvector, and its basis. (That this equals Macdonald's dominance-triangular `P_λ` is a literature fact, not used and not formalized.) | `PartitionDivision/Macdonald/{Triangular,Basic}.lean`, `PartitionDivision/Mathlib/RingTheory/MvPolynomial/Symmetric/MonomialBasis.lean` | `macdonaldOp_msymmVec_sub_mem_span`, `macdonaldP`, `macdonaldPBasis` |
+| Pieri ledger L5 (self-adjointness of every `D_N^r`), L7 (joint eigenvectors), L8 (`u_0(P_λ) ≠ 0`, Pieri-free via `q = t`), L13–L15 (generic Pieri rule for `macdonaldP`) | `PartitionDivision/Macdonald/{SelfAdjoint,JointEigen,SchurEigen,DiagonalRegularity,PieriInduction}.lean`, `PartitionDivision/Division/MacdonaldPieri.lean` | `isSelfAdjoint_macdonaldOpHom_fractionRing`, `Macdonald.macdonaldJointEigen`, `eval_grid_zero_macdonaldP_ne_zero` |
+| Rectangle values `P_{k·1^h}(ζ, ζv) = e_h(x^k)` | `PartitionDivision/Macdonald/Rectangle.lean` | `satisfiesRectangles_of_macdonaldD_eigenvectors`, `macdonaldRootRectangles` |
+| **Main theorem** | `PartitionDivision/Division/Main.lean` | `PartitionDivision.exists_nat_esymm_expansion_exponentDiv_esymmPart` |
+
+Departures from the manuscript route: Macdonald polynomials are defined as the lex-unitriangular
+`D_N^1`-eigenvectors (Macdonald's dominance characterization is not formalized or used);
+regularity at `q = ζ` is derived from the Pieri rule instead of integrality of `J_λ`; the
+rectangle values come from the eigenvalues of `D_N^1` instead of the branching rule; the generic
+Pieri rule follows Macdonald VI §6 (evaluation symmetry), with the `q,t`-kernel identity proved by
+Aristotle; the specialization `t = ζ v`, `v → 1` is evaluation in the local ring at `v = 1`.
