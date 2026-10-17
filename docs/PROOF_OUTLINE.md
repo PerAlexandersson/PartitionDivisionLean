@@ -138,3 +138,11 @@ conditional statements are useful intermediate lemmas, but not the target.
    inspect `#print axioms` for exported declarations.
 4. Update this outline with actual declaration names and a source map before
    beginning the Macdonald layer.
+
+## Source map
+
+Checked in Lean (builds with no `sorry`; axioms `propext`, `Classical.choice`, `Quot.sound`):
+
+| Outline step | Module | Main declarations |
+|---|---|---|
+| §2 positive-trace kernel | `PartitionDivision/Mathlib/Algebra/MvPolynomial/NonnegCoeffs.lean` | `MvPolynomial.HasNonnegCoeffs`, `Matrix.hasNonnegCoeffs_trace_list_prod` |
