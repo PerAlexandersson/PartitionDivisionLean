@@ -2,8 +2,8 @@
 
 Everything in this note is now formalized (see the source map in `PROOF_OUTLINE.md`). It
 records which Macdonald-polynomial facts the partition-division proof uses, how the polynomials
-are defined in Lean, and which standard inputs the proof avoids. Issue #9 has the discussion; the implementation issues are
-linked from the roadmap (#15).
+are defined in Lean, and which standard inputs the proof avoids. Issue #9 has the discussion;
+the implementation issues are linked from the roadmap (#15).
 
 ## Setting
 
@@ -36,15 +36,16 @@ agreement and does not formalize it.
 |---|---|
 | `D` preserves symmetric polynomials; triangular on `msymm` with the diagonal above | prove (alternant computation) |
 | `P_{(1^r)} = e_r` | immediate: `m_{(1^r)}` is minimal |
-| vertical Pieri rule `e_r P_μ = Σ ψ'_{λ/μ} P_λ`, with `ψ'` in row-pair form (Borodin–Corwin, *Macdonald processes*, eq. (2.12)) | prove; the main Macdonald theorem; route under design |
+| vertical Pieri rule `e_r P_μ = Σ ψ'_{λ/μ} P_λ`, with `ψ'` in row-pair form (Borodin–Corwin, *Macdonald processes*, eq. (2.12)) | proved via Macdonald VI §6: self-adjointness of every `D_N^r` for the finite `q,t`-pairing, joint eigenvectors, evaluation symmetry, principal specialization (`docs/PIERI.md`) |
 | regularity of `P_λ` at `q = ζ` (primitive `k`-th root, `t` generic) | from Pieri: expand `e_{λ'}`; the coefficient of `P_λ` is `1`, every other term is lower, and every `ψ'` is regular at `q = ζ`. Induct on lex order. (Formalized differently: Pieri keeps the local-ring span of the `P_λ` closed under each `e_r`.) No integrality of `J = c_λ P_λ` needed |
 | `P_{(k^h)}(ζ, t) = e_h(x_1^k, …, x_N^k)` | eigenvalue argument: at `q = ζ`, `D` fixes `m_{(k^h)}` up to `[N]_t`, and no lex-lower `P_α(ζ,t)` has that eigenvalue. No branching rule needed |
 | periodicity of `ψ'(ζ, t)` under `λ ↦ λ + k(1^h)`, and vanishing on newly legal strips | elementary, from the row-pair form |
 | `P_{τ + kξ}(ζ, t) = e_{ξ'}(x^k) · P_τ(ζ, t)` and the free basis indexed by `k`-restricted `τ` | shift operator commuting with every `e_r` |
 | positivity of the specialized transition weights | evaluate the cancelled row-pair factors at `t = ζ v`, `v = 1` |
 
-Not needed on the main line: the scalar product, `Q`, `Q'`, `J`, plethysm, `ω`-duality, the
-branching rule, and the Descouens–Morita factorization theorem. Descouens–Morita (EJC 29 (2008)
+Not needed on the main line: `Q`, `Q'`, `J`, plethysm, `ω`-duality, the branching rule, and
+the Descouens–Morita factorization theorem. The finite `q,t`-pairing `⟨g_λ, m_μ⟩ = δ` is used,
+for the Pieri rule only. Descouens–Morita (EJC 29 (2008)
 395–410) remains a possible independent cross-check.
 
 ## Specialization
