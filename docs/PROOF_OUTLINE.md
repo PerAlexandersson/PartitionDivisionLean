@@ -15,6 +15,9 @@ formalized any part of it here. The route below follows its finite free-basis,
 Pieri, and trace argument. A finite graph route is listed separately because
 it proves useful special cases but not the full theorem term by term.
 
+Module layout and reuse of existing Lean libraries are in
+[`ARCHITECTURE.md`](ARCHITECTURE.md); the work is tracked in issue #15.
+
 ## Dependency order
 
 ```text
