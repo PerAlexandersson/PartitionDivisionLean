@@ -11,6 +11,7 @@ public import PartitionDivision.Macdonald.EvaluationSymmetry
 public import PartitionDivision.Macdonald.GridDeterminant
 public import PartitionDivision.Macdonald.GridEvaluation
 public import PartitionDivision.Macdonald.PieriCoefficient
+public import PartitionDivision.TauCeti.RingTheory.MvPolynomial.Symmetric.Homogeneous
 
 /-!
 # The evaluation-symmetry induction for the Macdonald polynomials
@@ -232,16 +233,6 @@ theorem macdonaldP_zero : macdonaldP (0 : Nat.PartitionVector N) = 1 := by
   have h := macdonaldP_sub_msymmVec_mem_span (0 : Nat.PartitionVector N)
   rw [hempty, Set.image_empty, Submodule.span_empty, Submodule.mem_bot, sub_eq_zero] at h
   rw [h, msymmVec_zero]
-
-/-- The elementary symmetric polynomial `esymm s` is homogeneous of degree `s`. -/
-theorem isHomogeneous_esymm (K : Type*) [CommSemiring K] (s : ℕ) :
-    (esymm (Fin N) K s).IsHomogeneous s := by
-  rw [esymm]
-  apply IsHomogeneous.sum
-  intro t ht
-  have h := IsHomogeneous.prod t (fun i ↦ (X i : MvPolynomial (Fin N) K)) (fun _ ↦ 1)
-    (fun i _ ↦ isHomogeneous_X K i)
-  simpa [(Finset.mem_powersetCard.mp ht).2] using h
 
 /-- Evaluating a monomial symmetric polynomial is the orbit sum used by the grid determinant. -/
 theorem eval_msymmVec_eq_orbitSum {R : Type*} [CommSemiring R]
@@ -615,7 +606,7 @@ theorem macdonaldP_mul_esymm_mem_span (mu : Nat.PartitionVector N) (s : ℕ) :
     (macdonaldP_isSymmetric mu).mul (esymm_isSymmetric (Fin N) 𝕂 s)
   have hhom : (macdonaldP mu * esymm (Fin N) 𝕂 s).IsHomogeneous
       (partitionVectorDegree mu + s) :=
-    (isHomogeneous_macdonaldP mu).mul (isHomogeneous_esymm 𝕂 s)
+    (isHomogeneous_macdonaldP mu).mul (MvPolynomial.isHomogeneous_esymm (σ := Fin N) (R := 𝕂) s)
   refine hsym.mem_span_msymmVec fun kappa hkappa ↦ ?_
   rw [Finset.mem_coe, mem_lexLowerFinset]
   refine ⟨hhom.partitionVectorDegree_eq hkappa, ?_⟩
