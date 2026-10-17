@@ -25,6 +25,7 @@ public import PartitionDivision.Macdonald.PrincipalSpecialization
 public import PartitionDivision.Division.TraceIdentity
 public import PartitionDivision.Division.Assembly
 public import PartitionDivision.Division.Factorization
+public import PartitionDivision.Division.RootOfUnity
 
 /-!
 # Partition division
