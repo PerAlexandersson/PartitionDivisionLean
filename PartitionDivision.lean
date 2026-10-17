@@ -35,6 +35,7 @@ public import PartitionDivision.Division.RootOfUnity
 public import PartitionDivision.Division.Specialization
 public import PartitionDivision.Division.SchurSpecialization
 public import PartitionDivision.Division.MacdonaldPieri
+public import PartitionDivision.Division.Main
 
 /-!
 # Partition division
