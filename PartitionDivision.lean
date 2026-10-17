@@ -17,6 +17,9 @@ public import PartitionDivision.TauCeti.Combinatorics.Young.VerticalStrip
 public import PartitionDivision.Macdonald.Operator
 public import PartitionDivision.Macdonald.Basic
 public import PartitionDivision.Macdonald.BasicLexUnitriangular
+public import PartitionDivision.Macdonald.DiagonalRegularity
+public import PartitionDivision.Macdonald.JointEigen
+public import PartitionDivision.Macdonald.Rectangle
 public import PartitionDivision.Mathlib.Algebra.Polynomial.RegularQuotient
 public import PartitionDivision.Macdonald.PieriCoefficient
 public import PartitionDivision.Macdonald.Pairing

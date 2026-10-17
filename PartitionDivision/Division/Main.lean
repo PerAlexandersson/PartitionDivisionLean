@@ -9,6 +9,8 @@ public import Mathlib.NumberTheory.Cyclotomic.PrimitiveRoots
 public import PartitionDivision.Division.MacdonaldPieri
 public import PartitionDivision.Division.RootOfUnity
 public import PartitionDivision.Macdonald.BasicLexUnitriangular
+public import PartitionDivision.Macdonald.DiagonalRegularity
+public import PartitionDivision.Macdonald.JointEigen
 
 /-!
 # The partition-division theorem, assembled
@@ -100,6 +102,12 @@ theorem exists_nat_esymm_expansion_exponentDiv_esymmPart_of_root {k n : ℕ} (hk
     (macdonaldRootBasis ζ heig hne) (satisfiesPieri_macdonaldRootBasis ζ heig hne)
     (macdonaldRootBasis_zero ζ heig hne) hrect
 
+/-- Ledger Lemma 8 in the form used here: `u_0(P_λ) ≠ 0`, proved without the Pieri rule
+(`PartitionDivision.Macdonald.eval_grid_zero_macdonaldP_ne_zero`). -/
+theorem macdonaldBaseEvalNeZero (N : ℕ) : MacdonaldBaseEvalNeZero N := fun lam ↦ by
+  have h := Macdonald.eval_grid_zero_macdonaldP_ne_zero lam
+  rwa [Macdonald.grid_eq_pieriGrid] at h
+
 /-- **The partition-division theorem** in `N` variables.
 
 For `0 < k`, `n ≤ N` and a partition `μ ⊢ k n`, the exponent division `R_k = exponentDiv k`
@@ -123,8 +131,8 @@ those exponents by `k`.  Restriction to `N` variables commutes with `R_k`, and f
 `e_ν` with `ν ⊢ n` are linearly independent in `N` variables.  Hence the statement for every
 `N ≥ n` is equivalent to `R_k(e_μ) ∈ ℕ{e_ν}` in the ring of symmetric functions.  This
 equivalence is a remark and is not formalized here. -/
-theorem exists_nat_esymm_expansion_exponentDiv_esymmPart {k n : ℕ} (hk : 0 < k) (hn : n ≤ N)
-    (mu : (k * n).Partition)
+theorem exists_nat_esymm_expansion_exponentDiv_esymmPart_of_macdonaldInput {k n : ℕ}
+    (hk : 0 < k) (hn : n ≤ N) (mu : (k * n).Partition)
     (heig : Macdonald.MacdonaldJointEigen (N := N)) (hne : MacdonaldBaseEvalNeZero N)
     (hrect : MacdonaldRootRectangles heig hne k) :
     ∃ c : n.Partition → ℕ,
@@ -135,5 +143,19 @@ theorem exists_nat_esymm_expansion_exponentDiv_esymmPart {k n : ℕ} (hk : 0 < k
   have hζ := IsCyclotomicExtension.zeta_spec k ℚ (CyclotomicField k ℚ)
   exact exists_nat_esymm_expansion_exponentDiv_esymmPart_of_root hk hn mu hζ heig hne
     (hrect (CyclotomicField k ℚ) _ hζ)
+
+/-- **The partition-division theorem** in `N` variables, with Lemmas 7 and 8 discharged.
+
+For `0 < k`, `n ≤ N` and `μ ⊢ k n`, `exponentDiv k (e_μ)` is a natural-number combination of
+the `e_ν`, `ν ⊢ n`. The only remaining hypothesis is the rectangle values
+`P_{k • 1^h}(x; ζ, ζ v) = e_h(x ^ k)` of the specialized Macdonald basis. -/
+theorem exists_nat_esymm_expansion_exponentDiv_esymmPart_of_rectangles {k n : ℕ}
+    (hk : 0 < k) (hn : n ≤ N) (mu : (k * n).Partition)
+    (hrect : MacdonaldRootRectangles Macdonald.macdonaldJointEigen
+      (macdonaldBaseEvalNeZero N) k) :
+    ∃ c : n.Partition → ℕ,
+      exponentDiv k (esymmPart (Fin N) ℤ mu) = ∑ nu, c nu • esymmPart (Fin N) ℤ nu :=
+  exists_nat_esymm_expansion_exponentDiv_esymmPart_of_macdonaldInput hk hn mu
+    Macdonald.macdonaldJointEigen (macdonaldBaseEvalNeZero N) hrect
 
 end PartitionDivision

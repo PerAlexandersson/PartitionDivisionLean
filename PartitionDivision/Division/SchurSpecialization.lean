@@ -26,8 +26,8 @@ hypotheses (U) and (P) of `PartitionDivision.Division.Specialization`.
   lexicographically largest Pieri step, and its coefficient is one.
 * `coe_specializedBasis_diagonal`: at `q = t` the specialized basis is the Schur basis.
 * `eval_staircase_ne_zero`: **Lemma 8**, `P_λ(t ^ (N - 1), …, t, 1) ≠ 0` in `ℚ(q, t)`.
-* `eval_grid_zero_macdonaldP_ne_zero`: Lemma 8 for `MvPolynomial.macdonaldP`, conditional on the
-  generic Pieri rule for the Macdonald polynomials, which is kept as an explicit hypothesis.
+* `eval_grid_zero_macdonaldP_ne_zero_of_pieri`: Lemma 8 for `MvPolynomial.macdonaldP`, conditional
+  on the generic Pieri rule for the Macdonald polynomials, which is kept as an explicit hypothesis.
 -/
 
 @[expose] public section
@@ -400,7 +400,7 @@ theorem eval_staircase_ne_zero (hP : ∀ lam, IsLexUnitriangular (P lam) lam)
 /-- **Pieri ledger Lemma 8 for the Macdonald polynomials, conditional on the generic Pieri rule**:
 `u_0(P_λ) = P_λ(t ^ (N - 1), …, t, 1) ≠ 0` in `ℚ(q, t)`.  The hypothesis `hPieri` is the vertical
 Pieri rule for `macdonaldP` (Pieri ledger Lemma 15), not yet proved. -/
-theorem eval_grid_zero_macdonaldP_ne_zero
+theorem eval_grid_zero_macdonaldP_ne_zero_of_pieri
     (hPieri : SatisfiesPolynomialPieri (macdonaldP (N := N)) macdonaldParamQ macdonaldParamT)
     (lam : Nat.PartitionVector N) :
     eval (grid macdonaldParamQ macdonaldParamT 0) (macdonaldP lam) ≠ 0 := by
