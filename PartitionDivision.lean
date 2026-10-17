@@ -4,6 +4,7 @@ public import PartitionDivision.Mathlib.Algebra.MvPolynomial.NonnegCoeffs
 public import PartitionDivision.Mathlib.Combinatorics.Enumerative.Partition.Restricted
 public import PartitionDivision.Mathlib.RingTheory.MvPolynomial.Antisymmetric
 public import PartitionDivision.Mathlib.RingTheory.MvPolynomial.ExponentFilter
+public import PartitionDivision.Mathlib.RingTheory.MvPolynomial.Symmetric.ElementaryExpansion
 
 /-!
 # Partition division

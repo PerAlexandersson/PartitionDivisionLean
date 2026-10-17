@@ -7,6 +7,7 @@ module
 
 public import Mathlib.Algebra.MvPolynomial.Expand
 public import Mathlib.LinearAlgebra.Finsupp.LSum
+public import Mathlib.RingTheory.MvPolynomial.Homogeneous
 public import Mathlib.RingTheory.MvPolynomial.Symmetric.Defs
 public import Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots
 
@@ -271,5 +272,47 @@ theorem sum_rootTwist_eq_nsmul_exponentFilter {σ : Type*} [Fintype σ] [Decidab
   induction f using MvPolynomial.induction_on' with
   | monomial d r => exact sum_rootTwist_monomial hζ d r
   | add f g hf hg => simp [hf, hg, Finset.sum_add_distrib]
+
+end MvPolynomial
+
+namespace MvPolynomial
+
+variable {σ R S : Type*}
+
+/-- Coordinatewise exponent division commutes with a map of coefficient semirings. -/
+theorem map_exponentDiv [CommSemiring R] [CommSemiring S] (g : R →+* S) (k : ℕ)
+    (f : MvPolynomial σ R) :
+    map g (exponentDiv k f) = exponentDiv k (map g f) := by
+  induction f using MvPolynomial.induction_on' with
+  | monomial d r =>
+      rw [exponentDiv_monomial, map_monomial, exponentDiv_monomial]
+      by_cases hd : ExponentsDivisibleBy k d <;> simp [hd, map_monomial]
+  | add f h hf hh => simp [map_add, hf, hh]
+
+/-- Dividing all coordinatewise-divisible exponents by a positive `k` sends a homogeneous
+polynomial of degree `k * n` to a homogeneous polynomial of degree `n`. -/
+theorem IsHomogeneous.exponentDiv [CommSemiring R] [Finite σ]
+    {f : MvPolynomial σ R} {k n : ℕ} (hf : f.IsHomogeneous (k * n)) (hk : 0 < k) :
+    (exponentDiv k f).IsHomogeneous n := by
+  let _ := Fintype.ofFinite σ
+  induction hf using IsWeightedHomogeneous.induction_on with
+  | zero => exact isHomogeneous_zero σ R n
+  | add p q hp hq ihp ihq => simpa using ihp.add ihq
+  | monomial d r hd =>
+      rw [exponentDiv_monomial]
+      by_cases hdiv : ExponentsDivisibleBy k d
+      · rw [ite_eq_left hdiv]
+        apply isHomogeneous_monomial
+        rw [Finsupp.degree_eq_sum]
+        simp_rw [exponentQuotient_apply]
+        rw [← Nat.sum_div (fun i _ ↦ hdiv i)]
+        rw [← Finsupp.degree_eq_sum]
+        have hdegree : d.degree = k * n := by
+          rw [Finsupp.degree_eq_weight_one]
+          exact hd
+        rw [hdegree, Nat.mul_comm]
+        exact Nat.mul_div_left n hk
+      · rw [ite_eq_right hdiv]
+        exact isHomogeneous_zero σ R n
 
 end MvPolynomial
