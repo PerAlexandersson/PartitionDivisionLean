@@ -16,6 +16,7 @@ public import PartitionDivision.TauCeti.Combinatorics.Young.HookLength.Basic
 public import PartitionDivision.TauCeti.Combinatorics.Young.VerticalStrip
 public import PartitionDivision.Macdonald.Operator
 public import PartitionDivision.Macdonald.Basic
+public import PartitionDivision.Macdonald.BasicLexUnitriangular
 public import PartitionDivision.Mathlib.Algebra.Polynomial.RegularQuotient
 public import PartitionDivision.Macdonald.PieriCoefficient
 public import PartitionDivision.Macdonald.Pairing
@@ -30,6 +31,7 @@ public import PartitionDivision.Division.Assembly
 public import PartitionDivision.Division.Factorization
 public import PartitionDivision.Division.RootOfUnity
 public import PartitionDivision.Division.Specialization
+public import PartitionDivision.Division.SchurSpecialization
 
 /-!
 # Partition division
