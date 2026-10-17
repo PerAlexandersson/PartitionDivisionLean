@@ -18,6 +18,7 @@ public import PartitionDivision.Mathlib.Algebra.Polynomial.RegularQuotient
 public import PartitionDivision.Macdonald.PieriCoefficient
 public import PartitionDivision.Macdonald.Pairing
 public import PartitionDivision.Macdonald.KernelIdentity
+public import PartitionDivision.Macdonald.Kernel
 public import PartitionDivision.Macdonald.GridDeterminant
 public import PartitionDivision.Macdonald.GridEvaluation
 public import PartitionDivision.Macdonald.EvaluationSymmetry
