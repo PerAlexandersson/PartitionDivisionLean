@@ -15,6 +15,7 @@ public import PartitionDivision.TauCeti.RingTheory.MvPolynomial.Symmetric.Schur.
 public import PartitionDivision.TauCeti.Combinatorics.Young.HookLength.Basic
 public import PartitionDivision.TauCeti.Combinatorics.Young.VerticalStrip
 public import PartitionDivision.Macdonald.Operator
+public import PartitionDivision.Macdonald.Basic
 public import PartitionDivision.Mathlib.Algebra.Polynomial.RegularQuotient
 public import PartitionDivision.Macdonald.PieriCoefficient
 public import PartitionDivision.Macdonald.Pairing
