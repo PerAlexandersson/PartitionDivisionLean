@@ -6,6 +6,8 @@ public import PartitionDivision.Mathlib.LinearAlgebra.Eigenspace.Triangular
 public import PartitionDivision.Mathlib.RingTheory.MvPolynomial.Antisymmetric
 public import PartitionDivision.Mathlib.RingTheory.MvPolynomial.ExponentFilter
 public import PartitionDivision.Mathlib.RingTheory.MvPolynomial.Symmetric.ElementaryExpansion
+public import PartitionDivision.Mathlib.RingTheory.MvPolynomial.Symmetric.Monomial
+public import PartitionDivision.Macdonald.Operator
 
 /-!
 # Partition division
