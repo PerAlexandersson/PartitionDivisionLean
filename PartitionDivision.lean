@@ -7,6 +7,12 @@ public import PartitionDivision.Mathlib.RingTheory.MvPolynomial.Antisymmetric
 public import PartitionDivision.Mathlib.RingTheory.MvPolynomial.ExponentFilter
 public import PartitionDivision.Mathlib.RingTheory.MvPolynomial.Symmetric.ElementaryExpansion
 public import PartitionDivision.Mathlib.RingTheory.MvPolynomial.Symmetric.Monomial
+public import PartitionDivision.TauCeti.RingTheory.MvPolynomial.Symmetric.Schur.Basic
+public import PartitionDivision.TauCeti.RingTheory.MvPolynomial.Symmetric.Schur.Basis
+public import PartitionDivision.TauCeti.RingTheory.MvPolynomial.Symmetric.Schur.Bialternant
+public import PartitionDivision.TauCeti.RingTheory.MvPolynomial.Symmetric.Schur.HsymmPart
+public import PartitionDivision.TauCeti.Combinatorics.Young.HookLength.Basic
+public import PartitionDivision.TauCeti.Combinatorics.Young.VerticalStrip
 public import PartitionDivision.Macdonald.Operator
 public import PartitionDivision.Mathlib.Algebra.Polynomial.RegularQuotient
 public import PartitionDivision.Macdonald.PieriCoefficient

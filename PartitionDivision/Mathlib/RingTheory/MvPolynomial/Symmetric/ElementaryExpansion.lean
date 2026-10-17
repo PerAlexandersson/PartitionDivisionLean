@@ -8,6 +8,7 @@ module
 public import Mathlib.Data.Finsupp.Multiset
 public import Mathlib.RingTheory.MvPolynomial.Homogeneous
 public import Mathlib.RingTheory.MvPolynomial.Symmetric.FundamentalTheorem
+public import PartitionDivision.TauCeti.RingTheory.MvPolynomial.Symmetric.Homogeneous
 
 /-!
 # Homogeneous expansions in elementary symmetric polynomials
@@ -27,18 +28,6 @@ open scoped BigOperators
 namespace MvPolynomial
 
 variable {σ R S : Type*} [Fintype σ]
-
-/-- An elementary symmetric polynomial is homogeneous of its index. -/
-theorem isHomogeneous_esymm [CommSemiring R] (m : ℕ) :
-    (esymm σ R m).IsHomogeneous m := by
-  classical
-  rw [esymm]
-  apply IsHomogeneous.sum
-  intro t ht
-  rw [Finset.mem_powersetCard] at ht
-  convert IsHomogeneous.prod t (fun i ↦ X i) (fun _ ↦ 1)
-    (fun i _ ↦ isHomogeneous_X R i) using 1
-  simpa using ht.2.symm
 
 /-- Changing coefficients commutes with elementary symmetric polynomials indexed by a partition. -/
 theorem map_esymmPart [CommSemiring R] [CommSemiring S] {n : ℕ} (ν : n.Partition)
