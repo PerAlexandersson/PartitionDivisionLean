@@ -28,6 +28,7 @@ public import PartitionDivision.Division.TraceIdentity
 public import PartitionDivision.Division.Assembly
 public import PartitionDivision.Division.Factorization
 public import PartitionDivision.Division.RootOfUnity
+public import PartitionDivision.Division.Specialization
 
 /-!
 # Partition division
