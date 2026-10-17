@@ -19,6 +19,7 @@ public import PartitionDivision.Macdonald.PieriCoefficient
 public import PartitionDivision.Macdonald.Pairing
 public import PartitionDivision.Division.TraceIdentity
 public import PartitionDivision.Division.Assembly
+public import PartitionDivision.Division.Factorization
 
 /-!
 # Partition division
