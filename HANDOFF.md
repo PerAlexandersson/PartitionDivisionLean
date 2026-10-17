@@ -5,11 +5,12 @@
 2026-10-17 (evening): **the main theorem is formalized.**
 `PartitionDivision.exists_nat_esymm_expansion_exponentDiv_esymmPart` (Division/Main.lean) has no
 hypotheses beyond `0 < k`, `n ≤ N`, `μ ⊢ k n`; axioms `propext`, `Classical.choice`,
-`Quot.sound`; no `sorry`. Full build passes (Lean/Mathlib v4.35.0, `lake-workspace build
+`Quot.sound`; no `sorry`. The symmetric-function form in countably many variables is
+`exists_nat_esymmSeries_expansion_rowDivSeries` (Division/SymmetricFunction.lean). Full build passes (Lean/Mathlib v4.35.0, `lake-workspace build
 PartitionDivision`). Follow-ups: deduplicate parallel helper definitions (two `grid`s,
 `scaleSubset`/`scaleVars`, two `symmetricHomogeneousSubmodule`s, private helpers repeated in
 Assembly/ElementaryExpansion), move `Pieri`-form definitions from `Division/` to `Macdonald/`,
-optionally state the stable symmetric-function version, and the import-boundary CI check (#1).
+and the import-boundary CI check (#1).
 
 
 The public project is at

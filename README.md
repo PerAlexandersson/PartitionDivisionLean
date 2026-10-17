@@ -4,7 +4,8 @@ This repository is for a Lean formalization of the elementary-positivity
 theorem for partition division, proved in a manuscript by Per Alexandersson
 and Lilan Dai. It contains a complete Lean proof of the theorem in finitely many variables:
 `PartitionDivision.exists_nat_esymm_expansion_exponentDiv_esymmPart` in
-`PartitionDivision/Division/Main.lean`, with the [proof outline and source map](docs/PROOF_OUTLINE.md).
+`PartitionDivision/Division/Main.lean`, and in countably many variables (symmetric functions) as
+`PartitionDivision.exists_nat_esymmSeries_expansion_rowDivSeries`, with the [proof outline and source map](docs/PROOF_OUTLINE.md).
 
 For a positive integer `k`, partition division sends a monomial symmetric
 function `m_λ` to `m_(λ/k)` when every part of `λ` is divisible by `k`, and to

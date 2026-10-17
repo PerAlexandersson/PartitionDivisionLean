@@ -16,8 +16,12 @@ formalized in Lean** in its finite form: for every `N ≥ n`,
 (`PartitionDivision/Division/Main.lean`) states that `exponentDiv k (e_μ)` is a
 natural-number combination of the `e_ν`, `ν ⊢ n`, in `N` variables. In `N` variables
 `exponentDiv k` is `R_k`, and for `N ≥ n` the `e_ν` are independent, so this is
-equivalent to the symmetric-function statement; that equivalence is a remark, not a
-Lean theorem. The proof uses only the axioms `propext`, `Classical.choice` and
+equivalent to the symmetric-function statement. The symmetric-function statement is also
+proved directly, in countably many variables: `PartitionDivision.exists_nat_esymmSeries_expansion_rowDivSeries`
+(`PartitionDivision/Division/SymmetricFunction.lean`) gives `R_k(e_μ) = Σ_ν c_ν e_ν` with
+`c_ν ∈ ℕ` as an identity in `MvPowerSeries ℕ ℤ`. There `R_k` is `coeff d (R_k f) = coeff (k • d) f`,
+and `rowDivSeries_msymmSeries_of_parts_eq` / `_of_not_dvd` prove `R_k(m_λ) = m_{λ/k}` or `0`, the
+paper's definition. The proof uses only the axioms `propext`, `Classical.choice` and
 `Quot.sound`, with no `sorry`, and its only Macdonald input is proved in this
 repository (see `docs/MACDONALD.md` and `docs/PIERI.md`). The formal route
 follows the manuscript's finite free-basis, Pieri and trace argument, with the
@@ -181,3 +185,4 @@ regularity at `q = ζ` is derived from the Pieri rule instead of integrality of 
 rectangle values come from the eigenvalues of `D_N^1` instead of the branching rule; the generic
 Pieri rule follows Macdonald VI §6 (evaluation symmetry), with the `q,t`-kernel identity proved by
 Aristotle; the specialization `t = ζ v`, `v → 1` is evaluation in the local ring at `v = 1`.
+| **Symmetric-function form** (countably many variables) | `PartitionDivision/Division/SymmetricFunction.lean` | `exists_nat_esymmSeries_expansion_rowDivSeries`, `rowDivSeries_msymmSeries_of_parts_eq`, `rowDivSeries_msymmSeries_of_not_dvd` |

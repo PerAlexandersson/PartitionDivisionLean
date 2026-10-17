@@ -39,6 +39,7 @@ public import PartitionDivision.Division.Specialization
 public import PartitionDivision.Division.SchurSpecialization
 public import PartitionDivision.Division.MacdonaldPieri
 public import PartitionDivision.Division.Main
+public import PartitionDivision.Division.SymmetricFunction
 
 /-!
 # Partition division
