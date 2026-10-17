@@ -284,6 +284,180 @@ theorem eval_scaleSubset_grid_of_isLegal [Field K] (q t : K)
   rw [eval_scaleSubset_grid]
   congr 1
 
+private def orderedPairs : Finset (Fin N × Fin N) :=
+  (Finset.univ ×ˢ Finset.univ).filter fun ij ↦ ij.1 < ij.2
+
+private lemma prod_orderedPairs [CommMonoid K] (f : Fin N → Fin N → K) :
+    ∏ ij ∈ orderedPairs, f ij.1 ij.2 = ∏ i, ∏ j ∈ Finset.Ioi i, f i j := by
+  classical
+  unfold orderedPairs
+  rw [Finset.prod_filter]
+  rw [Finset.prod_product]
+  apply Finset.prod_congr rfl
+  intro i _
+  rw [← Finset.prod_filter]
+  congr
+  ext j
+  simp
+
+private lemma card_orderedPairs_both (I : Finset (Fin N)) :
+    ((orderedPairs (N := N)).filter fun ij ↦ ij.1 ∈ I ∧ ij.2 ∈ I).card =
+      I.card.choose 2 := by
+  classical
+  have heq :
+      (orderedPairs (N := N)).filter (fun ij ↦ ij.1 ∈ I ∧ ij.2 ∈ I) =
+        (I ×ˢ I).filter fun ij ↦ ij.1 < ij.2 := by
+    ext ij
+    simp [orderedPairs, and_comm]
+  rw [heq]
+  exact Finset.card_product_filter_lt
+
+private lemma prod_orderedPairs_cross [CommMonoid K] (I : Finset (Fin N))
+    (f : Fin N → Fin N → K) :
+    (∏ ij ∈ (orderedPairs (N := N)).filter
+      (fun ij ↦ (ij.1 ∈ I ∧ ij.2 ∉ I) ∨ (ij.1 ∉ I ∧ ij.2 ∈ I)),
+      if ij.1 ∈ I then f ij.1 ij.2 else f ij.2 ij.1) =
+      ∏ i ∈ I, ∏ j ∈ Finset.univ \ I, f i j := by
+  classical
+  rw [← Finset.prod_product']
+  apply Finset.prod_bij
+    (fun ij _ ↦ if ij.1 ∈ I then ij else (ij.2, ij.1))
+  · intro ij hij
+    simp only [Finset.mem_filter] at hij
+    rcases hij.2 with h | h
+    · simp [h.1, h.2]
+    · simp [h.1, h.2]
+  · intro a ha b hb hab
+    simp only [Finset.mem_filter] at ha hb
+    have halt : a.1 < a.2 := by simpa [orderedPairs] using ha.1
+    have hblt : b.1 < b.2 := by simpa [orderedPairs] using hb.1
+    by_cases hai : a.1 ∈ I <;> by_cases hbi : b.1 ∈ I
+    · simp only [hai, hbi, ↓reduceIte] at hab
+      exact hab
+    · simp only [hai, hbi, ↓reduceIte] at hab
+      have hreverse : a.2 < a.1 := by
+        have hfst : a.1 = b.2 := congrArg Prod.fst hab
+        have hsnd : a.2 = b.1 := congrArg Prod.snd hab
+        rw [hsnd, hfst]
+        exact hblt
+      exact (lt_asymm halt hreverse).elim
+    · simp only [hai, hbi, ↓reduceIte] at hab
+      have hreverse : a.2 < a.1 := by
+        have hfst : a.2 = b.1 := congrArg Prod.fst hab
+        have hsnd : a.1 = b.2 := congrArg Prod.snd hab
+        rw [hfst, hsnd]
+        exact hblt
+      exact (lt_asymm halt hreverse).elim
+    · simp only [hai, hbi, ↓reduceIte] at hab
+      exact Prod.ext (congrArg Prod.snd hab) (congrArg Prod.fst hab)
+  · intro b hb
+    simp only [Finset.mem_product, Finset.mem_sdiff, Finset.mem_univ, true_and] at hb
+    by_cases hlt : b.1 < b.2
+    · refine ⟨b, ?_, ?_⟩
+      · simp [orderedPairs, hlt, hb.1, hb.2]
+      · simp [hb.1]
+    · have hne : b.1 ≠ b.2 := by
+        intro h
+        exact hb.2 (h ▸ hb.1)
+      have hgt : b.2 < b.1 := lt_of_le_of_ne (le_of_not_gt hlt) hne.symm
+      refine ⟨(b.2, b.1), ?_, ?_⟩
+      · simp [orderedPairs, hgt, hb.1, hb.2]
+      · simp [hb.2]
+  · intro a ha
+    simp only [Finset.mem_filter] at ha
+    by_cases hai : a.1 ∈ I
+    · simp [hai]
+    · simp [hai]
+
+private lemma prod_orderedPairs_local [CommMonoid K] (t : K) (I : Finset (Fin N))
+    (f : Fin N → Fin N → K) :
+    (∏ ij ∈ orderedPairs,
+      if ij.1 ∈ I then if ij.2 ∈ I then t else f ij.1 ij.2
+      else if ij.2 ∈ I then f ij.2 ij.1 else 1) =
+      t ^ (I.card * (I.card - 1) / 2) *
+        ∏ i ∈ I, ∏ j ∈ Finset.univ \ I, f i j := by
+  classical
+  have hpoint (ij : Fin N × Fin N) :
+      (if ij.1 ∈ I then if ij.2 ∈ I then t else f ij.1 ij.2
+        else if ij.2 ∈ I then f ij.2 ij.1 else 1) =
+      (if ij.1 ∈ I ∧ ij.2 ∈ I then t else 1) *
+        (if (ij.1 ∈ I ∧ ij.2 ∉ I) ∨ (ij.1 ∉ I ∧ ij.2 ∈ I) then
+          if ij.1 ∈ I then f ij.1 ij.2 else f ij.2 ij.1 else 1) := by
+    by_cases h1 : ij.1 ∈ I <;> by_cases h2 : ij.2 ∈ I <;> simp [h1, h2]
+  simp_rw [hpoint, Finset.prod_mul_distrib]
+  rw [← Finset.prod_filter, ← Finset.prod_filter]
+  rw [Finset.prod_const, card_orderedPairs_both]
+  rw [Nat.choose_two_right]
+  exact congrArg₂ (· * ·) rfl (prod_orderedPairs_cross I f)
+
+/-- Scaling a subset of the variables multiplies the evaluated Vandermonde by its explicit
+rational coefficient. -/
+theorem eval_scaleSubset_vandermonde [Field K] (t : K) (I : Finset (Fin N))
+    (x : Fin N → K) (hx : ∀ i j, i ≠ j → x i - x j ≠ 0) :
+    MvPolynomial.eval x (scaleSubset t I (MvPolynomial.vandermonde N K)) =
+      MvPolynomial.eval x (MvPolynomial.vandermonde N K) *
+        (t ^ (I.card * (I.card - 1) / 2) *
+          ∏ i ∈ I, ∏ j ∈ Finset.univ \ I,
+            (t * x i - x j) / (x i - x j)) := by
+  classical
+  let y : Fin N → K := fun i ↦ if i ∈ I then t * x i else x i
+  have hv : MvPolynomial.eval x (MvPolynomial.vandermonde N K) ≠ 0 := by
+    simp only [MvPolynomial.vandermonde, map_prod, map_sub, MvPolynomial.eval_X]
+    rw [Finset.prod_ne_zero_iff]
+    intro i _
+    rw [Finset.prod_ne_zero_iff]
+    intro j hj
+    exact hx i j (Fin.ne_of_lt (Finset.mem_Ioi.mp hj))
+  have hratio :
+      MvPolynomial.eval x (scaleSubset t I (MvPolynomial.vandermonde N K)) /
+          MvPolynomial.eval x (MvPolynomial.vandermonde N K) =
+        t ^ (I.card * (I.card - 1) / 2) *
+          ∏ i ∈ I, ∏ j ∈ Finset.univ \ I,
+            (t * x i - x j) / (x i - x j) := by
+    rw [eval_scaleSubset]
+    change MvPolynomial.eval y (MvPolynomial.vandermonde N K) /
+        MvPolynomial.eval x (MvPolynomial.vandermonde N K) = _
+    simp only [MvPolynomial.vandermonde, map_prod, map_sub, MvPolynomial.eval_X]
+    rw [← prod_orderedPairs (fun i j ↦ y i - y j),
+      ← prod_orderedPairs (fun i j ↦ x i - x j),
+      ← Finset.prod_div_distrib]
+    calc
+      (∏ ij ∈ orderedPairs, (y ij.1 - y ij.2) / (x ij.1 - x ij.2)) =
+          ∏ ij ∈ orderedPairs,
+            if ij.1 ∈ I then
+              if ij.2 ∈ I then t else (t * x ij.1 - x ij.2) /
+                (x ij.1 - x ij.2)
+            else if ij.2 ∈ I then (t * x ij.2 - x ij.1) /
+              (x ij.2 - x ij.1) else 1 := by
+        apply Finset.prod_congr rfl
+        intro ij hij
+        have hne : ij.1 ≠ ij.2 :=
+          Fin.ne_of_lt (by simpa [orderedPairs] using hij)
+        by_cases h1 : ij.1 ∈ I <;> by_cases h2 : ij.2 ∈ I
+        · simp only [y, h1, h2, ↓reduceIte]
+          field_simp [hx _ _ hne]
+        · simp [y, h1, h2]
+        · simp only [y, h1, h2, ↓reduceIte]
+          have hden : x ij.2 - x ij.1 ≠ 0 := hx _ _ hne.symm
+          field_simp [hx _ _ hne, hden]
+          ring
+        · simp [y, h1, h2, hx _ _ hne]
+      _ = _ := prod_orderedPairs_local t I
+        (fun i j ↦ (t * x i - x j) / (x i - x j))
+  simpa [mul_comm] using (div_eq_iff hv).mp hratio
+
+/-- The Vandermonde ratio on a partition grid is the explicit coefficient `B`. -/
+theorem eval_scaleSubset_vandermonde_grid [Field K] {q t : K}
+    (hqt : PowerPairInjective q t) (mu : Nat.PartitionVector N)
+    (I : Finset (Fin N)) :
+    MvPolynomial.eval (grid q t mu)
+        (scaleSubset t I (MvPolynomial.vandermonde N K)) =
+      MvPolynomial.eval (grid q t mu) (MvPolynomial.vandermonde N K) *
+        B q t mu I := by
+  simpa [B, gridCoefficient, gridFactor, numeratorFactor] using
+    eval_scaleSubset_vandermonde t I (grid q t mu)
+      (fun i j hij ↦ grid_sub_ne_zero hqt mu hij)
+
 /-- The Vandermonde does not vanish on a power-pair injective partition grid. -/
 theorem eval_vandermonde_grid_ne_zero [Field K] {q t : K}
     (hqt : PowerPairInjective q t) (mu : Nat.PartitionVector N) :
@@ -304,9 +478,8 @@ def gridRecurrenceTerm [Field K] (q t : K) (mu : Nat.PartitionVector N)
       B q t mu I * MvPolynomial.eval (grid q t (incrementPartition mu I hI)) f
     else 0
 
-/-- A conditional grid recurrence.  The extra ratio hypothesis isolates the elementary
-finite-product identity `T_(t,I)(a_delta)/a_delta = A_I`; no Macdonald-polynomial theorem is
-used. -/
+/-- The grid recurrence obtained by evaluating an eigenvector equation for a cleared
+Macdonald-operator numerator. -/
 theorem gridRecurrence_of_vandermondeRatio [Field K] {q t c : K}
     (hqt : PowerPairInjective q t) (mu : Nat.PartitionVector N) (r : ℕ)
     (f g : MvPolynomial (Fin N) K)
@@ -314,12 +487,7 @@ theorem gridRecurrence_of_vandermondeRatio [Field K] {q t c : K}
       MvPolynomial.vandermonde N K * g =
         ∑ I ∈ Finset.univ.powersetCard r,
           scaleSubset t I (MvPolynomial.vandermonde N K) * scaleSubset q I f)
-    (heigen : g = c • f)
-    (hratio : ∀ I ∈ Finset.univ.powersetCard r,
-      MvPolynomial.eval (grid q t mu)
-          (scaleSubset t I (MvPolynomial.vandermonde N K)) =
-        MvPolynomial.eval (grid q t mu) (MvPolynomial.vandermonde N K) *
-          B q t mu I) :
+    (heigen : g = c • f) :
     c * MvPolynomial.eval (grid q t mu) f =
       ∑ I ∈ Finset.univ.powersetCard r, gridRecurrenceTerm q t mu f I := by
   let v := MvPolynomial.eval (grid q t mu) (MvPolynomial.vandermonde N K)
@@ -345,8 +513,8 @@ theorem gridRecurrence_of_vandermondeRatio [Field K] {q t c : K}
           v * (B q t mu I * MvPolynomial.eval
             (fun i ↦ q ^ increment mu I i * t ^ i.rev.val) f) := by
       apply Finset.sum_congr rfl
-      intro I hI
-      rw [hratio I hI, eval_scaleSubset_grid]
+      intro I _
+      rw [eval_scaleSubset_vandermonde_grid hqt mu I, eval_scaleSubset_grid]
       simp only [v]
       ring
     _ = ∑ I ∈ Finset.univ.powersetCard r,
