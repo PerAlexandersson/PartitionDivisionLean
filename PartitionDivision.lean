@@ -3,6 +3,7 @@ module
 public import PartitionDivision.Mathlib.Algebra.MvPolynomial.NonnegCoeffs
 public import PartitionDivision.Mathlib.Combinatorics.Enumerative.Partition.Restricted
 public import PartitionDivision.Mathlib.LinearAlgebra.Eigenspace.Triangular
+public import PartitionDivision.Mathlib.LinearAlgebra.SesquilinearForm.SelfAdjointTriangular
 public import PartitionDivision.Mathlib.RingTheory.MvPolynomial.Antisymmetric
 public import PartitionDivision.Mathlib.RingTheory.MvPolynomial.ExponentFilter
 public import PartitionDivision.Mathlib.RingTheory.MvPolynomial.Symmetric.ElementaryExpansion
