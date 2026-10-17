@@ -19,6 +19,7 @@ public import PartitionDivision.Macdonald.PieriCoefficient
 public import PartitionDivision.Macdonald.Pairing
 public import PartitionDivision.Macdonald.GridDeterminant
 public import PartitionDivision.Macdonald.GridEvaluation
+public import PartitionDivision.Macdonald.EvaluationSymmetry
 public import PartitionDivision.Macdonald.PrincipalSpecialization
 public import PartitionDivision.Division.TraceIdentity
 public import PartitionDivision.Division.Assembly
