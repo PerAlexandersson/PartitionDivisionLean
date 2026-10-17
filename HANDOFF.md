@@ -11,7 +11,11 @@ There is no Lean package, compiled declaration, or formalization claim yet.
 The private `PartitionDivision` audit repository and the unpublished companion
 manuscript are not part of this Git history.
 
-No worker owns Lean source or the shared Lake build slot for this project.
+2026-10-17: the user prioritized this project. The Claude Code session that also
+integrates RealRooted owns source integration and the shared Lake build slot; workers draft
+in scratch directories and never run Lake. Build with
+`lake-workspace build PartitionDivision` (Lean/Mathlib v4.35.0, same shared package checkouts as
+RealRooted; build output in `/lake-cache/ai-projects/build/PartitionDivision`).
 The host supervisor has released the initial README, guide, outline, and
 handoff after the public checkpoint. The only subsequent change to this file
 records its publication status.
