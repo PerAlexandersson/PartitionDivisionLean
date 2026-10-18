@@ -179,12 +179,14 @@ Checked in Lean (builds with no `sorry`; axioms `propext`, `Classical.choice`, `
 | Rectangle values `P_{k·1^h}(ζ, ζv) = e_h(x^k)` | `PartitionDivision/Macdonald/Rectangle.lean` | `satisfiesRectangles_of_macdonaldD_eigenvectors`, `macdonaldRootRectangles` |
 | **Main theorem** | `PartitionDivision/Division/Main.lean` | `PartitionDivision.exists_nat_esymm_expansion_exponentDiv_esymmPart` |
 
-Departures from the manuscript route: Macdonald polynomials are defined as the lex-unitriangular
-`D_N^1`-eigenvectors (Macdonald's dominance characterization is not formalized or used);
-regularity at `q = ζ` is derived from the Pieri rule instead of integrality of `J_λ`; the
-rectangle values come from the eigenvalues of `D_N^1` instead of the branching rule; the generic
-Pieri rule follows Macdonald VI §6 (evaluation symmetry), with the `q,t`-kernel identity proved by
-Aristotle; the specialization `t = ζ v`, `v → 1` is evaluation in the local ring at `v = 1`.
 | **Symmetric-function form** (countably many variables) | `PartitionDivision/Division/SymmetricFunction.lean` | `exists_nat_esymmSeries_expansion_rowDivSeries`, `rowDivSeries_msymmSeries_of_parts_eq`, `rowDivSeries_msymmSeries_of_not_dvd` |
 | Walk formula (manuscript's combinatorial interpretation): `k^N c_ν = Σ` over closed walks on `k`-restricted states with step sizes `μ` and label `ν` of the product of the explicit weights | `PartitionDivision/Division/WalkFormula.lean` | `natCast_mul_eq_sum_closedWalks`, `walkWeight` |
 | Coloring model: `(∏ μ_i!) R_k(e_μ) = Σ_P X_{G_P}` over set partitions of the cells into row-transversal `k`-blocks, `G_P` the interval-overlap graph | `PartitionDivision/Division/ColoringModel.lean` | `coloring_identity_esymmPart`, `chromaticSymmetric` |
+
+Relation to the manuscript: the current manuscript follows the same route (Pieri coefficients in
+row-pair form, regularity at `q = ζ` from the Pieri rule, rectangle values from the eigenvalues of
+`D_N^1`, evaluation in the local ring at `v = 1`). The Lean development additionally proves the
+Macdonald facts the manuscript cites. `P_λ` is defined as the lex-unitriangular
+`D_N^1`-eigenvector, which agrees with Macdonald's dominance definition; that agreement is not
+needed. The generic Pieri rule follows Macdonald VI §6, with the `q,t`-kernel identity proved by
+Aristotle.

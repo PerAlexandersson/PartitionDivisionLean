@@ -57,49 +57,41 @@ kernel and the independent `nanoda` kernel, and allows only the axioms `propext`
 
 ## Relation to the manuscript proof
 
-The Lean proof follows the manuscript's architecture: the decomposition into
-`k`-restricted states, a Macdonald basis at a primitive `k`-th root of unity
-`q = ζ` with `t = ζv`, the Pieri transition matrices, the trace identity via the
-root-of-unity filter, and positivity of the transition weights at `v = 1`
-followed by integrality. It deviates in the following places. These are changes
-of route, not of the theorem.
+The Lean proof follows the current manuscript step by step. Both work with:
 
-1. **Definition of the Macdonald polynomials.** In `N` variables, `P_λ` is
-   defined over `ℚ(q,t)` as the unique eigenvector of Macdonald's operator
-   `D_N^1` of the form `m_λ` plus terms lower in *lexicographic* order
-   (`MvPolynomial.macdonaldP`, `PartitionDivision/Macdonald/Basic.lean`).
-   Macdonald's book uses dominance order. It is a well-known theorem that the two
-   definitions agree, since dominance-lower terms are lex-lower and the
-   lex-unitriangular eigenvector is unique. The Lean proof does not use that
-   agreement and does not formalize it.
-2. **The vertical Pieri rule** `e_r P_μ = Σ ψ'_(λ/μ) P_λ` is proved in Lean, not
-   cited. The proof follows Macdonald, *Symmetric Functions and Hall Polynomials*,
-   Ch. VI §6, in finitely many variables:
-   - the operators `D_N^r` are self-adjoint for the `q,t`-pairing;
-   - hence `P_λ` is a joint eigenvector of every `D_N^r`;
+- the decomposition into `k`-restricted states;
+- the Pieri coefficients in their form indexed by pairs of rows;
+- a Macdonald basis at a primitive `k`-th root of unity `q = ζ` with `t = ζv`;
+- regularity at `q = ζ` derived from the Pieri rule;
+- the rectangle values from the eigenvalues of Macdonald's operator `D_N^1`;
+- the shift-operator factorization;
+- the trace identity via the root-of-unity filter;
+- positivity of the transition weights at `v = 1`, followed by integrality.
+
+The difference is that the manuscript cites standard facts about Macdonald polynomials, and the
+Lean development proves them:
+
+1. **Definition.** In `N` variables, `P_λ` is defined over `ℚ(q,t)` as the unique eigenvector of
+   `D_N^1` of the form `m_λ` plus lexicographically lower terms (`MvPolynomial.macdonaldP` in
+   `PartitionDivision/Macdonald/Basic.lean`). This agrees with Macdonald's definition, where
+   dominance order is used: dominance-lower terms are lex-lower, and the lex-unitriangular
+   eigenvector is unique. The Lean proof does not need this agreement.
+2. **The vertical Pieri rule** `e_r P_μ = Σ ψ'_(λ/μ) P_λ`, with `ψ'` in row-pair form, is proved
+   following Macdonald, *Symmetric Functions and Hall Polynomials*, Ch. VI §6, in finitely many
+   variables:
+   - the operators `D_N^r` are self-adjoint for the finite `q,t`-pairing, so `P_λ` is a joint
+     eigenvector of all of them;
    - evaluation symmetry and the principal specialization follow;
-   - the coefficient is then the row-pair form of `ψ'` (Borodin–Corwin, eq. (2.12)).
+   - nonvanishing of the principal specialization is obtained at `q = t`, where the `P_λ` are
+     Schur polynomials.
 
-   The kernel identity behind self-adjointness was proved by
+   The `q,t`-kernel identity behind self-adjointness was proved by
    [Aristotle](https://aristotle.harmonic.fun). See [`docs/PIERI.md`](docs/PIERI.md).
-3. **Regularity at `q = ζ`** is derived from the Pieri rule (every Pieri
-   denominator stays nonzero at `q = ζ`), instead of from polynomiality of the
-   integral form `J_λ`.
-4. **The rectangle values** `P_(k^h)(x; ζ, t) = e_h(x_1^k, …, x_N^k)` are derived
-   from the eigenvalues of `D_N^1` at `q = ζ`, instead of from the branching
-   rule.
-5. **The root-of-unity factorization** `P_(τ+kξ) = e_(ξ')(x^k) P_τ` uses the
-   manuscript's shift-operator argument. The Descouens–Morita factorization
-   theorem is not used.
-6. **The trace identity** is proved for an abstract family of multiplication
-   matrices and contains no Macdonald theory. The specialization `t = ζv`,
-   `v → 1` is evaluation in the local ring at `v = 1`, not an analytic limit.
-7. **Nonvanishing of the principal specialization** `P_λ(t^(N-1), …, 1) ≠ 0` is
-   obtained by specializing to `q = t`, where the Macdonald polynomials become
-   Schur polynomials.
 
-Details and declaration names are in [`docs/MACDONALD.md`](docs/MACDONALD.md),
-[`docs/PIERI.md`](docs/PIERI.md) and the source map in `docs/PROOF_OUTLINE.md`.
+The trace identity is proved for any family of multiplication matrices with `P_∅ = 1`, and so
+contains no Macdonald theory. Details and declaration names are in
+[`docs/MACDONALD.md`](docs/MACDONALD.md), [`docs/PIERI.md`](docs/PIERI.md) and the source map
+in [`docs/PROOF_OUTLINE.md`](docs/PROOF_OUTLINE.md).
 
 ## Reused code
 
