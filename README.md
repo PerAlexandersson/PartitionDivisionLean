@@ -37,6 +37,8 @@ The theorem is **fully checked by Lean**, with no `sorry` and no custom axioms
 | Symmetric functions (countably many variables, as power series over `ℤ`) | `PartitionDivision.exists_nat_esymmSeries_expansion_rowDivSeries` in `PartitionDivision/Division/SymmetricFunction.lean` |
 | `R_k` agrees with the definition above: `R_k(m_λ) = m_(λ/k)` or `0` | `rowDivSeries_msymmSeries_of_parts_eq`, `rowDivSeries_msymmSeries_of_not_dvd` (same file) |
 | `N` variables, for every `N ≥ n` | `PartitionDivision.exists_nat_esymm_expansion_exponentDiv_esymmPart` in `PartitionDivision/Division/Main.lean` |
+| Walk formula: `k^N c_(μν)` is the weighted number of closed walks on `k`-restricted states | `PartitionDivision.natCast_mul_eq_sum_closedWalks` in `PartitionDivision/Division/WalkFormula.lean` |
+| Coloring model: `(∏ μ_i!) R_k(e_μ) = Σ_P X_(G_P)` (chromatic symmetric functions of interval-overlap graphs) | `PartitionDivision.ColoringModel.coloring_identity_esymmPart` in `PartitionDivision/Division/ColoringModel.lean` |
 
 The Macdonald-polynomial input is proved in this repository as well; nothing is
 assumed. The module layout is in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md),
