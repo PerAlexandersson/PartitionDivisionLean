@@ -41,6 +41,7 @@ public import PartitionDivision.Division.MacdonaldPieri
 public import PartitionDivision.Division.Main
 public import PartitionDivision.Division.SymmetricFunction
 public import PartitionDivision.Division.WalkFormula
+public import PartitionDivision.Division.ColoringModel
 
 /-!
 # Partition division

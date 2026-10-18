@@ -187,3 +187,4 @@ Pieri rule follows Macdonald VI §6 (evaluation symmetry), with the `q,t`-kernel
 Aristotle; the specialization `t = ζ v`, `v → 1` is evaluation in the local ring at `v = 1`.
 | **Symmetric-function form** (countably many variables) | `PartitionDivision/Division/SymmetricFunction.lean` | `exists_nat_esymmSeries_expansion_rowDivSeries`, `rowDivSeries_msymmSeries_of_parts_eq`, `rowDivSeries_msymmSeries_of_not_dvd` |
 | Walk formula (manuscript's combinatorial interpretation): `k^N c_ν = Σ` over closed walks on `k`-restricted states with step sizes `μ` and label `ν` of the product of the explicit weights | `PartitionDivision/Division/WalkFormula.lean` | `natCast_mul_eq_sum_closedWalks`, `walkWeight` |
+| Coloring model: `(∏ μ_i!) R_k(e_μ) = Σ_P X_{G_P}` over set partitions of the cells into row-transversal `k`-blocks, `G_P` the interval-overlap graph | `PartitionDivision/Division/ColoringModel.lean` | `coloring_identity_esymmPart`, `chromaticSymmetric` |
