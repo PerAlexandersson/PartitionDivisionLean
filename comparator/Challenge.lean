@@ -41,7 +41,7 @@ def msymmSeries {n : ℕ} (lam : n.Partition) : MvPowerSeries σ R :=
 
 /-- The partition-division operator `R_k` on power series: `coeff d (R_k f) = coeff (k • d) f`.
 On monomial symmetric functions it is `R_k m_λ = m_{λ/k}` or `0`; see the next two statements. -/
-def rowDivSeries (k : ℕ) : MvPowerSeries σ R →ₗ[R] MvPowerSeries σ R where
+def partitionDivision (k : ℕ) : MvPowerSeries σ R →ₗ[R] MvPowerSeries σ R where
   toFun f := fun d ↦ f (k • d)
   map_add' _ _ := rfl
   map_smul' _ _ := rfl
@@ -50,31 +50,31 @@ end Definitions
 
 /-- `R_k` is the operator of the paper, part 1: if every part of `λ` is `k` times the
 corresponding part of `ν`, then `R_k m_λ = m_ν`. -/
-theorem rowDivSeries_msymmSeries_of_parts_eq {σ R : Type*} [CommSemiring R] {k m n : ℕ}
+theorem partitionDivision_msymmSeries {σ R : Type*} [CommSemiring R] {k m n : ℕ}
     (hk : 0 < k) (lam : n.Partition) (nu : m.Partition) (h : lam.parts = nu.parts.map (k * ·)) :
-    rowDivSeries σ R k (msymmSeries σ R lam) = msymmSeries σ R nu := by
+    partitionDivision σ R k (msymmSeries σ R lam) = msymmSeries σ R nu := by
   sorry
 
 /-- `R_k` is the operator of the paper, part 2: if some part of `λ` is not divisible by `k`,
 then `R_k m_λ = 0`. -/
-theorem rowDivSeries_msymmSeries_of_not_dvd {σ R : Type*} [CommSemiring R] {k n : ℕ}
+theorem partitionDivision_msymmSeries_eq_zero {σ R : Type*} [CommSemiring R] {k n : ℕ}
     (hk : 0 < k) (lam : n.Partition) (h : ∃ p ∈ lam.parts, ¬ k ∣ p) :
-    rowDivSeries σ R k (msymmSeries σ R lam) = 0 := by
+    partitionDivision σ R k (msymmSeries σ R lam) = 0 := by
   sorry
 
 /-- **The partition-division theorem** (Alexandersson–Dai). For `k ≥ 1` and `μ ⊢ k n`,
 `R_k(e_μ)` is a combination of the `e_ν`, `ν ⊢ n`, with natural-number coefficients. -/
-theorem exists_nat_esymmSeries_expansion_rowDivSeries {k n : ℕ} (hk : 0 < k)
+theorem partitionDivision_ePositive {k n : ℕ} (hk : 0 < k)
     (mu : (k * n).Partition) :
     ∃ c : n.Partition → ℕ,
-      rowDivSeries ℕ ℤ k (esymmSeriesPart ℕ ℤ mu) =
+      partitionDivision ℕ ℤ k (esymmSeriesPart ℕ ℤ mu) =
         ∑ nu, (c nu : ℤ) • esymmSeriesPart ℕ ℤ nu := by
   sorry
 
 /-- **The partition-division theorem in `N ≥ n` variables**, with Mathlib's elementary symmetric
 polynomials: the coefficient of `x^d` in `Σ_ν c_ν e_ν` equals the coefficient of `x^{k d}` in
 `e_μ`, i.e. `R_k(e_μ) = Σ_ν c_ν e_ν` in `N` variables. -/
-theorem exists_nat_esymmPart_expansion_of_le {N k n : ℕ} (hk : 0 < k) (hn : n ≤ N)
+theorem partitionDivision_ePositive_finite {N k n : ℕ} (hk : 0 < k) (hn : n ≤ N)
     (mu : (k * n).Partition) :
     ∃ c : n.Partition → ℕ, ∀ d : Fin N →₀ ℕ,
       (∑ nu, c nu • MvPolynomial.esymmPart (Fin N) ℤ nu).coeff d =

@@ -2,16 +2,16 @@
   "challenge_module": "Challenge",
   "solution_module": "Solution",
   "theorem_names": [
-    "Comparator.exists_nat_esymmSeries_expansion_rowDivSeries",
-    "Comparator.exists_nat_esymmPart_expansion_of_le",
-    "Comparator.rowDivSeries_msymmSeries_of_parts_eq",
-    "Comparator.rowDivSeries_msymmSeries_of_not_dvd"
+    "Comparator.partitionDivision_ePositive",
+    "Comparator.partitionDivision_ePositive_finite",
+    "Comparator.partitionDivision_msymmSeries",
+    "Comparator.partitionDivision_msymmSeries_eq_zero"
   ],
   "definition_names": [
     "Comparator.esymmSeries",
     "Comparator.esymmSeriesPart",
     "Comparator.msymmSeries",
-    "Comparator.rowDivSeries"
+    "Comparator.partitionDivision"
   ],
   "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
   "enable_nanoda": true

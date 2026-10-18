@@ -34,7 +34,7 @@ The Macdonald inputs were first stated as separate, named hypotheses:
 * `MacdonaldRootRectangles` (the rectangle values of the specialized basis), proved as
   `macdonaldRootRectangles` from `Macdonald.satisfiesRectangles_of_macdonaldD_eigenvectors`.
 
-The final theorem `exists_nat_esymm_expansion_exponentDiv_esymmPart` has no hypotheses beyond
+The final theorem `exponentDiv_esymmPart_ePositive` has no hypotheses beyond
 `0 < k`, `n ≤ N` and `μ ⊢ k n`.
 -/
 
@@ -96,7 +96,7 @@ def MacdonaldRootRectangles (heig : Macdonald.MacdonaldJointEigen (N := N))
 
 /-- The partition-division theorem at a single primitive root of unity `ζ ∈ L`, assuming
 ledger Lemmas 7 and 8 and the rectangle values of the specialized basis at this `ζ`. -/
-theorem exists_nat_esymm_expansion_exponentDiv_esymmPart_of_root {k n : ℕ} (hk : 0 < k)
+theorem exponentDiv_esymmPart_ePositive_of_root {k n : ℕ} (hk : 0 < k)
     (hn : n ≤ N) (mu : (k * n).Partition) {L : Type*} [Field L] [CharZero L] {ζ : L}
     (hζ : IsPrimitiveRoot ζ k)
     (heig : Macdonald.MacdonaldJointEigen (N := N)) (hne : MacdonaldBaseEvalNeZero N)
@@ -136,7 +136,7 @@ those exponents by `k`.  Restriction to `N` variables commutes with `R_k`, and f
 `e_ν` with `ν ⊢ n` are linearly independent in `N` variables.  Hence the statement for every
 `N ≥ n` is equivalent to `R_k(e_μ) ∈ ℕ{e_ν}` in the ring of symmetric functions.  This
 equivalence is a remark and is not formalized here. -/
-theorem exists_nat_esymm_expansion_exponentDiv_esymmPart_of_macdonaldInput {k n : ℕ}
+theorem exponentDiv_esymmPart_ePositive_of_macdonaldInput {k n : ℕ}
     (hk : 0 < k) (hn : n ≤ N) (mu : (k * n).Partition)
     (heig : Macdonald.MacdonaldJointEigen (N := N)) (hne : MacdonaldBaseEvalNeZero N)
     (hrect : MacdonaldRootRectangles heig hne k) :
@@ -146,7 +146,7 @@ theorem exists_nat_esymm_expansion_exponentDiv_esymmPart_of_macdonaldInput {k n 
   have : NeZero (k : ℚ) := ⟨Nat.cast_ne_zero.mpr hk.ne'⟩
   let _ : Algebra ℚ (CyclotomicField k ℚ) := CyclotomicField.algebra k ℚ
   have hζ := IsCyclotomicExtension.zeta_spec k ℚ (CyclotomicField k ℚ)
-  exact exists_nat_esymm_expansion_exponentDiv_esymmPart_of_root hk hn mu hζ heig hne
+  exact exponentDiv_esymmPart_ePositive_of_root hk hn mu hζ heig hne
     (hrect (CyclotomicField k ℚ) _ hζ)
 
 /-- **The partition-division theorem** in `N` variables, with Lemmas 7 and 8 discharged.
@@ -154,13 +154,13 @@ theorem exists_nat_esymm_expansion_exponentDiv_esymmPart_of_macdonaldInput {k n 
 For `0 < k`, `n ≤ N` and `μ ⊢ k n`, `exponentDiv k (e_μ)` is a natural-number combination of
 the `e_ν`, `ν ⊢ n`. The only remaining hypothesis is the rectangle values
 `P_{k • 1^h}(x; ζ, ζ v) = e_h(x ^ k)` of the specialized Macdonald basis. -/
-theorem exists_nat_esymm_expansion_exponentDiv_esymmPart_of_rectangles {k n : ℕ}
+theorem exponentDiv_esymmPart_ePositive_of_rectangles {k n : ℕ}
     (hk : 0 < k) (hn : n ≤ N) (mu : (k * n).Partition)
     (hrect : MacdonaldRootRectangles Macdonald.macdonaldJointEigen
       (macdonaldBaseEvalNeZero N) k) :
     ∃ c : n.Partition → ℕ,
       exponentDiv k (esymmPart (Fin N) ℤ mu) = ∑ nu, c nu • esymmPart (Fin N) ℤ nu :=
-  exists_nat_esymm_expansion_exponentDiv_esymmPart_of_macdonaldInput hk hn mu
+  exponentDiv_esymmPart_ePositive_of_macdonaldInput hk hn mu
     Macdonald.macdonaldJointEigen (macdonaldBaseEvalNeZero N) hrect
 
 /-! ### The rectangle values of the specialized basis -/
@@ -357,11 +357,11 @@ those exponents by `k`.  Restriction to `N` variables commutes with `R_k`, and f
 `e_ν` with `ν ⊢ n` are linearly independent in `N` variables.  Hence the statement for every
 `N ≥ n` is equivalent to `R_k(e_μ) ∈ ℕ{e_ν}` in the ring of symmetric functions.  This
 equivalence is a remark and is not formalized here. -/
-theorem exists_nat_esymm_expansion_exponentDiv_esymmPart {k n : ℕ} (hk : 0 < k) (hn : n ≤ N)
+theorem exponentDiv_esymmPart_ePositive {k n : ℕ} (hk : 0 < k) (hn : n ≤ N)
     (mu : (k * n).Partition) :
     ∃ c : n.Partition → ℕ,
       exponentDiv k (esymmPart (Fin N) ℤ mu) = ∑ nu, c nu • esymmPart (Fin N) ℤ nu :=
-  exists_nat_esymm_expansion_exponentDiv_esymmPart_of_rectangles hk hn mu
+  exponentDiv_esymmPart_ePositive_of_rectangles hk hn mu
     (macdonaldRootRectangles hk _ _)
 
 end PartitionDivision

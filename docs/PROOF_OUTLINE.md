@@ -12,15 +12,15 @@ R_k(e_μ) = ∑_{ν ⊢ n} c_{μ,ν} e_ν,  with c_{μ,ν} ∈ ℕ.
 
 The companion manuscript proves this theorem mathematically. **It is now
 formalized in Lean** in its finite form: for every `N ≥ n`,
-`PartitionDivision.exists_nat_esymm_expansion_exponentDiv_esymmPart`
+`PartitionDivision.exponentDiv_esymmPart_ePositive`
 (`PartitionDivision/Division/Main.lean`) states that `exponentDiv k (e_μ)` is a
 natural-number combination of the `e_ν`, `ν ⊢ n`, in `N` variables. In `N` variables
 `exponentDiv k` is `R_k`, and for `N ≥ n` the `e_ν` are independent, so this is
 equivalent to the symmetric-function statement. The symmetric-function statement is also
-proved directly, in countably many variables: `PartitionDivision.exists_nat_esymmSeries_expansion_rowDivSeries`
+proved directly, in countably many variables: `PartitionDivision.partitionDivision_ePositive`
 (`PartitionDivision/Division/SymmetricFunction.lean`) gives `R_k(e_μ) = Σ_ν c_ν e_ν` with
 `c_ν ∈ ℕ` as an identity in `MvPowerSeries ℕ ℤ`. There `R_k` is `coeff d (R_k f) = coeff (k • d) f`,
-and `rowDivSeries_msymmSeries_of_parts_eq` / `_of_not_dvd` prove `R_k(m_λ) = m_{λ/k}` or `0`, the
+and `partitionDivision_msymmSeries` / `_of_not_dvd` prove `R_k(m_λ) = m_{λ/k}` or `0`, the
 paper's definition. The proof uses only the axioms `propext`, `Classical.choice` and
 `Quot.sound`, with no `sorry`, and its only Macdonald input is proved in this
 repository (see `docs/MACDONALD.md` and `docs/PIERI.md`). The formal route
@@ -177,8 +177,8 @@ Checked in Lean (builds with no `sorry`; axioms `propext`, `Classical.choice`, `
 | §3 lex-triangularity of every `D_N^r` on `msymmVec`; definition of `macdonaldP` over `ℚ(q,t)` as the unique lex-unitriangular `D_N^1`-eigenvector, and its basis. (That this equals Macdonald's dominance-triangular `P_λ` is a literature fact, not used and not formalized.) | `PartitionDivision/Macdonald/{Triangular,Basic}.lean`, `PartitionDivision/Mathlib/RingTheory/MvPolynomial/Symmetric/MonomialBasis.lean` | `macdonaldOp_msymmVec_sub_mem_span`, `macdonaldP`, `macdonaldPBasis` |
 | Pieri ledger L5 (self-adjointness of every `D_N^r`), L7 (joint eigenvectors), L8 (`u_0(P_λ) ≠ 0`, Pieri-free via `q = t`), L13–L15 (generic Pieri rule for `macdonaldP`) | `PartitionDivision/Macdonald/{SelfAdjoint,JointEigen,SchurEigen,DiagonalRegularity,PieriInduction}.lean`, `PartitionDivision/Division/MacdonaldPieri.lean` | `isSelfAdjoint_macdonaldOpHom_fractionRing`, `Macdonald.macdonaldJointEigen`, `eval_grid_zero_macdonaldP_ne_zero` |
 | Rectangle values `P_{k·1^h}(ζ, ζv) = e_h(x^k)` | `PartitionDivision/Macdonald/Rectangle.lean` | `satisfiesRectangles_of_macdonaldD_eigenvectors`, `macdonaldRootRectangles` |
-| **Main theorem** | `PartitionDivision/Division/Main.lean` | `PartitionDivision.exists_nat_esymm_expansion_exponentDiv_esymmPart` |
-| **Symmetric-function form** (countably many variables) | `PartitionDivision/Division/SymmetricFunction.lean` | `exists_nat_esymmSeries_expansion_rowDivSeries`, `rowDivSeries_msymmSeries_of_parts_eq`, `rowDivSeries_msymmSeries_of_not_dvd` |
+| **Main theorem** | `PartitionDivision/Division/Main.lean` | `PartitionDivision.exponentDiv_esymmPart_ePositive` |
+| **Symmetric-function form** (countably many variables) | `PartitionDivision/Division/SymmetricFunction.lean` | `partitionDivision_ePositive`, `partitionDivision_msymmSeries`, `partitionDivision_msymmSeries_eq_zero` |
 | Walk formula (manuscript's combinatorial interpretation): `k^N c_ν = Σ` over closed walks on `k`-restricted states with step sizes `μ` and label `ν` of the product of the explicit weights | `PartitionDivision/Division/WalkFormula.lean` | `natCast_mul_eq_sum_closedWalks`, `walkWeight` |
 | Coloring model: `(∏ μ_i!) R_k(e_μ) = Σ_P X_{G_P}` over set partitions of the cells into row-transversal `k`-blocks, `G_P` the interval-overlap graph | `PartitionDivision/Division/ColoringModel.lean` | `coloring_identity_esymmPart`, `chromaticSymmetric` |
 

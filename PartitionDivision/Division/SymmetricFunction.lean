@@ -20,13 +20,13 @@ functions.
 * `esymmSeries σ R r` is `e_r = Σ_{|S| = r} x^S`, and `esymmSeriesPart σ R μ` is `e_μ`.
 * `msymmSeries σ R λ` is the monomial symmetric function `m_λ`: the sum of all monomials whose
   nonzero exponents form the multiset of parts of `λ`.
-* `rowDivSeries σ R k` is the operator `R_k`, with `coeff d (R_k f) = coeff (k • d) f`.
+* `partitionDivision σ R k` is the operator `R_k`, with `coeff d (R_k f) = coeff (k • d) f`.
 
-`rowDivSeries_msymmSeries_of_parts_eq` and `rowDivSeries_msymmSeries_of_not_dvd` show that
-`rowDivSeries` is the operator `R_k` of the paper: `R_k m_λ = m_{λ/k}` when `k` divides every part
-of `λ`, and `R_k m_λ = 0` otherwise.
+`partitionDivision_msymmSeries` and `partitionDivision_msymmSeries_eq_zero` show that
+`partitionDivision` is the operator `R_k` of the paper: `R_k m_λ = m_{λ/k}` when `k` divides
+every part of `λ`, and `R_k m_λ = 0` otherwise.
 
-The main theorem `exists_nat_esymmSeries_expansion_rowDivSeries` says that for `0 < k` and
+The main theorem `partitionDivision_ePositive` says that for `0 < k` and
 `μ ⊢ k n`, `R_k(e_μ)` is a natural-number combination of the `e_ν`, `ν ⊢ n`.
 
 **Remark.**  The symmetric functions over `ℤ` are the symmetric power series of bounded degree
@@ -34,7 +34,7 @@ in `MvPowerSeries ℕ ℤ`.  The `e_μ` and `m_λ` above are such series, so the
 statement `R_k(e_μ) ∈ ℕ{e_ν}` in `Λ`.
 
 The proof restricts to finitely many variables with `MvPowerSeries.killCompl` and applies the
-finite theorem `exists_nat_esymm_expansion_exponentDiv_esymmPart`.  The coefficients do not
+finite theorem `exponentDiv_esymmPart_ePositive`.  The coefficients do not
 depend on the number of variables, by linear independence of the `e_ν` in `n` variables.
 -/
 
@@ -68,7 +68,7 @@ def msymmSeries {n : ℕ} (lam : n.Partition) : MvPowerSeries σ R :=
   fun d ↦ if d.support.val.map d = lam.parts then 1 else 0
 
 /-- The operator `R_k` on power series: `coeff d (R_k f) = coeff (k • d) f`. -/
-def rowDivSeries (k : ℕ) : MvPowerSeries σ R →ₗ[R] MvPowerSeries σ R where
+def partitionDivision (k : ℕ) : MvPowerSeries σ R →ₗ[R] MvPowerSeries σ R where
   toFun f := fun d ↦ f (k • d)
   map_add' _ _ := rfl
   map_smul' _ _ := rfl
@@ -92,12 +92,12 @@ theorem coeff_msymmSeries {n : ℕ} (lam : n.Partition) (d : σ →₀ ℕ) :
   MvPowerSeries.coeff_apply _ _
 
 @[simp]
-theorem coeff_rowDivSeries (k : ℕ) (f : MvPowerSeries σ R) (d : σ →₀ ℕ) :
-    MvPowerSeries.coeff d (rowDivSeries σ R k f) = MvPowerSeries.coeff (k • d) f := by
+theorem coeff_partitionDivision (k : ℕ) (f : MvPowerSeries σ R) (d : σ →₀ ℕ) :
+    MvPowerSeries.coeff d (partitionDivision σ R k f) = MvPowerSeries.coeff (k • d) f := by
   rw [MvPowerSeries.coeff_apply, MvPowerSeries.coeff_apply]
   rfl
 
-/-! ### `rowDivSeries` is `R_k` -/
+/-! ### `partitionDivision` is `R_k` -/
 
 /-- The nonzero exponents of `k • d` are those of `d`, multiplied by `k`. -/
 private theorem values_smul {k : ℕ} (hk : 0 < k) (d : σ →₀ ℕ) :
@@ -106,20 +106,21 @@ private theorem values_smul {k : ℕ} (hk : 0 < k) (d : σ →₀ ℕ) :
   rfl
 
 /-- If `λ = k ν`, then `R_k m_λ = m_ν`. -/
-theorem rowDivSeries_msymmSeries_of_parts_eq {k m n : ℕ} (hk : 0 < k) (lam : n.Partition)
+theorem partitionDivision_msymmSeries {k m n : ℕ} (hk : 0 < k) (lam : n.Partition)
     (nu : m.Partition) (h : lam.parts = nu.parts.map (k * ·)) :
-    rowDivSeries σ R k (msymmSeries σ R lam) = msymmSeries σ R nu := by
+    partitionDivision σ R k (msymmSeries σ R lam) = msymmSeries σ R nu := by
   have hinj : Function.Injective (fun a : ℕ ↦ k * a) :=
     fun a b hab ↦ Nat.eq_of_mul_eq_mul_left hk hab
   ext d
-  simp only [coeff_rowDivSeries, coeff_msymmSeries, values_smul hk, h,
+  simp only [coeff_partitionDivision, coeff_msymmSeries, values_smul hk, h,
     (Multiset.map_injective hinj).eq_iff]
 
 /-- If some part of `λ` is not divisible by `k`, then `R_k m_λ = 0`. -/
-theorem rowDivSeries_msymmSeries_of_not_dvd {k n : ℕ} (hk : 0 < k) (lam : n.Partition)
-    (h : ∃ p ∈ lam.parts, ¬ k ∣ p) : rowDivSeries σ R k (msymmSeries σ R lam) = 0 := by
+theorem partitionDivision_msymmSeries_eq_zero {k n : ℕ} (hk : 0 < k) (lam : n.Partition)
+    (h : ∃ p ∈ lam.parts, ¬ k ∣ p) :
+    partitionDivision σ R k (msymmSeries σ R lam) = 0 := by
   ext d
-  rw [coeff_rowDivSeries, coeff_msymmSeries, values_smul hk, map_zero, ite_eq_right_iff]
+  rw [coeff_partitionDivision, coeff_msymmSeries, values_smul hk, map_zero, ite_eq_right_iff]
   intro heq
   exfalso
   obtain ⟨p, hp, hndvd⟩ := h
@@ -251,9 +252,9 @@ theorem coeff_exponentDiv {k : ℕ} (hk : 0 < k) (p : MvPolynomial σ R) (d : σ
 
 /-- Exponent division of a polynomial is `R_k` of its power series. -/
 theorem coe_exponentDiv {k : ℕ} (hk : 0 < k) (p : MvPolynomial σ R) :
-    (MvPolynomial.exponentDiv k p : MvPowerSeries σ R) = rowDivSeries σ R k p := by
+    (MvPolynomial.exponentDiv k p : MvPowerSeries σ R) = partitionDivision σ R k p := by
   ext d
-  rw [MvPolynomial.coeff_coe, coeff_exponentDiv hk, coeff_rowDivSeries, MvPolynomial.coeff_coe]
+  rw [MvPolynomial.coeff_coe, coeff_exponentDiv hk, coeff_partitionDivision, MvPolynomial.coeff_coe]
 
 /-- The power series of a finite linear combination of polynomials. -/
 theorem coe_sum_smul {ι : Type*} (s : Finset ι) (a : ι → R) (p : ι → MvPolynomial σ R) :
@@ -317,11 +318,11 @@ theorem killCompl_esymmSeriesPart (e : σ ↪ τ) {n : ℕ} (mu : n.Partition) :
   exact killCompl_esymmSeries e r
 
 /-- Restriction commutes with `R_k`. -/
-theorem killCompl_rowDivSeries (e : σ ↪ τ) (k : ℕ) (f : MvPowerSeries τ R) :
-    MvPowerSeries.killCompl e (rowDivSeries τ R k f) =
-      rowDivSeries σ R k (MvPowerSeries.killCompl e f) := by
+theorem killCompl_partitionDivision (e : σ ↪ τ) (k : ℕ) (f : MvPowerSeries τ R) :
+    MvPowerSeries.killCompl e (partitionDivision τ R k f) =
+      partitionDivision σ R k (MvPowerSeries.killCompl e f) := by
   ext x
-  rw [MvPowerSeries.coeff_killCompl, coeff_rowDivSeries, coeff_rowDivSeries,
+  rw [MvPowerSeries.coeff_killCompl, coeff_partitionDivision, coeff_partitionDivision,
     MvPowerSeries.coeff_killCompl, embDomain_smul]
 
 /-! ### The main theorem -/
@@ -331,9 +332,9 @@ coefficients. -/
 private theorem exists_int_series_expansion {k n N : ℕ} (hk : 0 < k) (hn : n ≤ N)
     (mu : (k * n).Partition) :
     ∃ c : n.Partition → ℕ,
-      rowDivSeries (Fin N) ℤ k (esymmSeriesPart (Fin N) ℤ mu) =
+      partitionDivision (Fin N) ℤ k (esymmSeriesPart (Fin N) ℤ mu) =
         ∑ nu, (c nu : ℤ) • esymmSeriesPart (Fin N) ℤ nu := by
-  obtain ⟨c, hc⟩ := exists_nat_esymm_expansion_exponentDiv_esymmPart hk hn mu
+  obtain ⟨c, hc⟩ := exponentDiv_esymmPart_ePositive hk hn mu
   refine ⟨c, ?_⟩
   have h : ((MvPolynomial.exponentDiv k (MvPolynomial.esymmPart (Fin N) ℤ mu) :
       MvPolynomial (Fin N) ℤ) : MvPowerSeries (Fin N) ℤ) =
@@ -350,13 +351,13 @@ private theorem exists_int_series_expansion {k n N : ℕ} (hk : 0 < k) (hn : n �
 /-- The expansion coefficients in `N ≥ n` variables are those in `n` variables. -/
 private theorem series_expansion_of_le {k n N : ℕ} (hk : 0 < k) (hn : n ≤ N)
     (mu : (k * n).Partition) (c : n.Partition → ℕ)
-    (hc : rowDivSeries (Fin n) ℤ k (esymmSeriesPart (Fin n) ℤ mu) =
+    (hc : partitionDivision (Fin n) ℤ k (esymmSeriesPart (Fin n) ℤ mu) =
       ∑ nu, (c nu : ℤ) • esymmSeriesPart (Fin n) ℤ nu) :
-    rowDivSeries (Fin N) ℤ k (esymmSeriesPart (Fin N) ℤ mu) =
+    partitionDivision (Fin N) ℤ k (esymmSeriesPart (Fin N) ℤ mu) =
       ∑ nu, (c nu : ℤ) • esymmSeriesPart (Fin N) ℤ nu := by
   obtain ⟨b, hb⟩ := exists_int_series_expansion (N := N) hk hn mu
   have hres := congrArg (MvPowerSeries.killCompl (R := ℤ) (Fin.castLEEmb hn)) hb
-  rw [killCompl_rowDivSeries, killCompl_esymmSeriesPart, killCompl_sum_smul, hc] at hres
+  rw [killCompl_partitionDivision, killCompl_esymmSeriesPart, killCompl_sum_smul, hc] at hres
   simp only [killCompl_esymmSeriesPart] at hres
   have hseries0 : ∑ nu, ((b nu : ℤ) - c nu) • esymmSeriesPart (Fin n) ℤ nu = 0 := by
     simp_rw [sub_smul]
@@ -375,11 +376,12 @@ private theorem series_expansion_of_le {k n N : ℕ} (hk : 0 < k) (hn : n ≤ N)
   simp_rw [hbc]
 
 /-- **The partition-division theorem for symmetric functions.**  For `0 < k` and `μ ⊢ k n`,
-`R_k(e_μ)` is a natural-number combination of the `e_ν`, `ν ⊢ n`, in countably many variables. -/
-theorem exists_nat_esymmSeries_expansion_rowDivSeries {k n : ℕ} (hk : 0 < k)
+`R_k(e_μ)` is a natural-number combination of the `e_ν`, `ν ⊢ n`, in countably many
+variables. -/
+theorem partitionDivision_ePositive {k n : ℕ} (hk : 0 < k)
     (mu : (k * n).Partition) :
     ∃ c : n.Partition → ℕ,
-      rowDivSeries ℕ ℤ k (esymmSeriesPart ℕ ℤ mu) =
+      partitionDivision ℕ ℤ k (esymmSeriesPart ℕ ℤ mu) =
         ∑ nu, (c nu : ℤ) • esymmSeriesPart ℕ ℤ nu := by
   obtain ⟨c, hc⟩ := exists_int_series_expansion (N := n) hk le_rfl mu
   refine ⟨c, ?_⟩
@@ -396,7 +398,7 @@ theorem exists_nat_esymmSeries_expansion_rowDivSeries {k n : ℕ} (hk : 0 < k)
   obtain ⟨x, rfl⟩ := hd
   have hseries := series_expansion_of_le hk hnN mu c hc
   rw [← MvPowerSeries.coeff_killCompl, ← MvPowerSeries.coeff_killCompl,
-    killCompl_rowDivSeries, killCompl_esymmSeriesPart, hseries, killCompl_sum_smul]
+    killCompl_partitionDivision, killCompl_esymmSeriesPart, hseries, killCompl_sum_smul]
   simp only [killCompl_esymmSeriesPart]
 
 end PartitionDivision
