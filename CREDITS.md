@@ -8,7 +8,6 @@ provenance line; `docs/ARCHITECTURE.md` describes the porting rules.
 |---|---|---|
 | [Mathlib](https://github.com/leanprover-community/mathlib4) | Apache-2.0 | dependency, not ported |
 | [Tau Ceti](https://github.com/TauCetiProject/TauCeti) | Apache-2.0 | 32 files under `PartitionDivision/TauCeti/` from commit `cebc9b60`, listed below |
-| [RealRooted](https://github.com/PerAlexandersson/RealRooted) | Apache-2.0 | `msymm` coefficient lemmas in `PartitionDivision/Mathlib/RingTheory/MvPolynomial/Symmetric/Monomial.lean` |
 
 Some proofs were found by [Aristotle](https://aristotle.harmonic.fun) (Harmonic) and then ported
 and checked locally; the module docstring says so where this applies.

@@ -97,9 +97,7 @@ in [`docs/PROOF_OUTLINE.md`](docs/PROOF_OUTLINE.md).
 
 Schur polynomials, Kostka numbers, hooks and vertical strips are ported from
 [Tau Ceti](https://github.com/TauCetiProject/TauCeti) (Apache-2.0) under
-`PartitionDivision/TauCeti/`. A few `msymm` lemmas are ported from
-[RealRooted](https://github.com/PerAlexandersson/RealRooted). See
-[`CREDITS.md`](CREDITS.md). Several proofs were found by Aristotle (Harmonic) and
+`PartitionDivision/TauCeti/`; see [`CREDITS.md`](CREDITS.md). Several proofs were found by Aristotle (Harmonic) and
 ported; their module docstrings say so.
 
 ## Building

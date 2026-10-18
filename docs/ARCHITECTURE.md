@@ -63,13 +63,13 @@ rather than building a new one.
 | Need | Source | Plan |
 |---|---|---|
 | `esymm`, `esymmPart`, `msymm`, `hsymm`, fundamental theorem | Mathlib | use directly |
-| `msymm` coefficients, `e`–`m` unitriangularity | RealRooted `RealRooted/Mathlib/RingTheory/MvPolynomial/Symmetric/{Monomial,ElementaryMonomial}.lean` | port to `Mathlib/` (Apache-2.0) |
+| `msymm` coefficients, elementary expansions | Mathlib's fundamental theorem | new, `Mathlib/` (`ElementaryExpansion`, `Monomial`, `MonomialBasis`) |
 | matrix trace, base change, `leftMulMatrix`, roots of unity, `NNRat` | Mathlib | use directly |
 | finiteness of `MvPolynomial.expand` | Tau Ceti `RingTheory/MvPolynomial/Expand.lean` | port when the free basis needs it |
 | hooks, arms, legs | Tau Ceti `Combinatorics/Young/HookLength/Basic.lean` | port |
 | vertical strips | Tau Ceti `Combinatorics/Young/VerticalStrip.lean` | port |
 | Schur polynomials and their Pieri rule | Tau Ceti `RingTheory/MvPolynomial/Symmetric/Schur/*` | port if the Macdonald layer specializes to Schur |
-| dominance order | Tau Ceti `Combinatorics/Young/Dominance.lean`, Mathlib PR #42725 | follow Mathlib; do not port RealRooted's global `PartialOrder` instance |
+| dominance order | Tau Ceti `Combinatorics/Young/Dominance.lean`, Mathlib PR #42725 | not needed: the proof uses lexicographic order |
 | nonnegative-coefficient polynomials, positive traces | none found | new, `Mathlib/` |
 | exponent filter, root-of-unity average | none found | new, `Mathlib/` |
 | `k`-restricted partitions and their decomposition | none found | new, `Mathlib/Combinatorics/` |
@@ -94,5 +94,3 @@ Lake dependency would force this project onto Mathlib master. We port instead:
 When Tau Ceti and this project agree on a Mathlib revision, or a ported file
 reaches Mathlib, delete the port and import the original. Keeping the original
 paths makes that a mechanical change.
-
-RealRooted ports follow the same rules with their RealRooted path.
