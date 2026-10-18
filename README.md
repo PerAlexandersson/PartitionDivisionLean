@@ -43,6 +43,16 @@ assumed. The module layout is in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md),
 and [`docs/PROOF_OUTLINE.md`](docs/PROOF_OUTLINE.md) maps every proof step to its
 Lean module.
 
+## Checking the result
+
+[`comparator/Challenge.lean`](comparator/Challenge.lean) states the theorems with short,
+self-contained definitions that import only Mathlib. To audit the formalization, read that file.
+The [Comparator CI](.github/workflows/comparator.yml) workflow, or `./verify.sh` locally, runs
+[leanprover/comparator](https://github.com/leanprover/comparator). It checks that the library
+(`comparator/Solution.lean`) proves exactly those statements, re-checks the proofs with the Lean
+kernel and the independent `nanoda` kernel, and allows only the axioms `propext`, `Quot.sound` and
+`Classical.choice`.
+
 ## Relation to the manuscript proof
 
 The Lean proof follows the manuscript's architecture: the decomposition into
